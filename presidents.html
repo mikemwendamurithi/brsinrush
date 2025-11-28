@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>African Presidents Quiz</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f9f9f9;
+        padding: 20px;
+        text-align: center;
+    }
+
+    h1 {
+        color: #2c3e50;
+        margin-bottom: 30px;
+    }
+
+    .question-card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        max-width: 600px;
+        margin: 0 auto 30px auto;
+        text-align: left;
+    }
+
+    .question-text {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .options button {
+        display: block;
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+    .options button:hover {
+        background-color: #45a049;
+    }
+
+    #score {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h1>🟢 African Presidents Quiz</h1>
+
+<div class="question-card" id="quizContainer">
+    <div class="question-text" id="question"></div>
+    <div class="options" id="options"></div>
+</div>
+
+<div id="score"></div>
+
+<script>
+const quizData = [
+    { question: "Who is the President of Kenya?", options: ["Uhuru Kenyatta", "William Ruto", "Leah Sharibu", "Raila Odinga"], correct: 1 },
+    { question: "Who is the President of South Africa?", options: ["Cyril Ramaphosa", "Jacob Zuma", "Nelson Mandela", "Thabo Mbeki"], correct: 0 },
+    { question: "Who is the President of Nigeria?", options: ["Muhammadu Buhari", "Olusegun Obasanjo", "Goodluck Jonathan", "Yemi Osinbajo"], correct: 0 },
+    { question: "Who is the President of Egypt?", options: ["Mohamed Morsi", "Abdel Fattah el-Sisi", "Hosni Mubarak", "Anwar Sadat"], correct: 1 },
+    { question: "Who is the President of Ghana?", options: ["Nana Akufo-Addo", "John Mahama", "Jerry Rawlings", "Kwame Nkrumah"], correct: 0 },
+    { question: "Who is the President of Uganda?", options: ["Yoweri Museveni", "Idi Amin", "Kizza Besigye", "Milton Obote"], correct: 0 },
+    { question: "Who is the President of Tanzania?", options: ["Samia Suluhu", "John Magufuli", "Benjamin Mkapa", "Jakaya Kikwete"], correct: 0 },
+    { question: "Who is the President of Ethiopia?", options: ["Sahle-Work Zewde", "Abiy Ahmed", "Meles Zenawi", "Hailemariam Desalegn"], correct: 0 },
+    { question: "Who is the President of Algeria?", options: ["Abdelmadjid Tebboune", "Abdelaziz Bouteflika", "Ahmed Ouyahia", "Houari Boumédiène"], correct: 0 },
+    { question: "Who is the President of Senegal?", options: ["Macky Sall", "Abdoulaye Wade", "Leopold Sedar Senghor", "Cheikh Anta Diop"], correct: 0 },
+    { question: "Who is the President of Rwanda?", options: ["Paul Kagame", "Pasteur Bizimungu", "Juvénal Habyarimana", "Faustin Twagiramungu"], correct: 0 },
+    { question: "Who is the President of Zimbabwe?", options: ["Emmerson Mnangagwa", "Robert Mugabe", "Morgan Tsvangirai", "Joice Mujuru"], correct: 0 },
+    { question: "Who is the President of Morocco?", options: ["Mohammed VI", "Hassan II", "Abdallah", "Youssef"], correct: 0 },
+    { question: "Who is the President of Mali?", options: ["Assimi Goïta", "Ibrahim Boubacar Keïta", "Amadou Toumani Touré", "Alpha Oumar Konaré"], correct: 0 },
+    { question: "Who is the President of Sudan?", options: ["Abdel Fattah al-Burhan", "Omar al-Bashir", "Sadiq al-Mahdi", "Ahmed al-Mirghani"], correct: 0 },
+    { question: "Who is the President of Libya?", options: ["Mohamed al-Menfi", "Muammar Gaddafi", "Fayez al-Sarraj", "Abdul Hamid Dbeibah"], correct: 0 },
+    { question: "Who is the President of Botswana?", options: ["Mokgweetsi Masisi", "Ian Khama", "Festus Mogae", "Quett Masire"], correct: 0 },
+    { question: "Who is the President of Ivory Coast?", options: ["Alassane Ouattara", "Laurent Gbagbo", "Henri Konan Bédié", "Félix Houphouët-Boigny"], correct: 0 },
+    { question: "Who is the President of Cameroon?", options: ["Paul Biya", "Ahmadou Ahidjo", "Maurice Kamto", "John Fru Ndi"], correct: 0 },
+    { question: "Who is the President of Democratic Republic of Congo?", options: ["Félix Tshisekedi", "Joseph Kabila", "Mobutu Sese Seko", "Laurent-Désiré Kabila"], correct: 0 }
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function loadQuestion() {
+    const q = quizData[currentQuestion];
+    document.getElementById('question').textContent = q.question;
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = '';
+    q.options.forEach((opt, index) => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(index);
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function selectOption(selectedIndex) {
+    if (selectedIndex === quizData[currentQuestion].correct) {
+        score++;
+    }
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+        loadQuestion();
+    } else {
+        showScore();
+    }
+}
+
+function showScore() {
+    document.getElementById('quizContainer').innerHTML = `<h2>Quiz Complete! 🎉</h2>
+        <p id="score">Your Score: ${score} / ${quizData.length}</p>`;
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>

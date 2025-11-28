@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Quiz</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f8ff;
+        padding: 20px;
+        text-align: center;
+    }
+
+    h1 {
+        color: #2c3e50;
+        margin-bottom: 30px;
+    }
+
+    .question-card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        max-width: 600px;
+        margin: 0 auto 30px auto;
+        text-align: left;
+    }
+
+    .question-text {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .options button {
+        display: block;
+        width: 100%;
+        background-color: #1e90ff;
+        color: white;
+        border: none;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+    .options button:hover {
+        background-color: #187bcd;
+    }
+
+    #score {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h1>📘 English Quiz</h1>
+
+<div class="question-card" id="quizContainer">
+    <div class="question-text" id="question"></div>
+    <div class="options" id="options"></div>
+</div>
+
+<div id="score"></div>
+
+<script>
+const quizData = [
+    { question: "Choose the correct spelling:", options: ["Recieve", "Receive", "Recive", "Receeve"], correct: 1 },
+    { question: "Select the synonym of 'Happy':", options: ["Sad", "Joyful", "Angry", "Tired"], correct: 1 },
+    { question: "Select the antonym of 'Big':", options: ["Large", "Tiny", "Huge", "Massive"], correct: 1 },
+    { question: "Choose the correct plural form of 'Child':", options: ["Childs", "Childes", "Children", "Childrens"], correct: 2 },
+    { question: "Select the correct form: She ___ a doctor.", options: ["is", "are", "am", "be"], correct: 0 },
+    { question: "Choose the correct past tense of 'Go':", options: ["Goed", "Went", "Gone", "Going"], correct: 1 },
+    { question: "Which is a noun?", options: ["Run", "Beautiful", "Apple", "Quickly"], correct: 2 },
+    { question: "Choose the correct sentence:", options: ["He don't like pizza.", "He doesn't likes pizza.", "He doesn't like pizza.", "He not likes pizza."], correct: 2 },
+    { question: "Fill in the blank: I have ___ apple.", options: ["an", "a", "the", "no"], correct: 0 },
+    { question: "Select the adjective:", options: ["Run", "Quick", "Swim", "Laugh"], correct: 1 },
+    { question: "Choose the correct form: They ___ playing.", options: ["is", "are", "am", "be"], correct: 1 },
+    { question: "Which is a verb?", options: ["Happy", "Run", "Beautiful", "Apple"], correct: 1 },
+    { question: "Select the correct sentence:", options: ["I has a pen.", "I have a pen.", "I haves a pen.", "I having a pen."], correct: 1 },
+    { question: "Choose the synonym of 'Angry':", options: ["Mad", "Calm", "Happy", "Tired"], correct: 0 },
+    { question: "Select the antonym of 'Hot':", options: ["Warm", "Cold", "Boiling", "Burning"], correct: 1 },
+    { question: "Fill in the blank: She ___ to school every day.", options: ["go", "goes", "going", "gone"], correct: 1 },
+    { question: "Choose the correct article: ___ orange is sweet.", options: ["A", "An", "The", "No"], correct: 1 },
+    { question: "Select the correct past tense of 'Eat':", options: ["Eated", "Eat", "Ate", "Eating"], correct: 2 },
+    { question: "Choose the correct sentence:", options: ["He like apples.", "He likes apples.", "He liking apples.", "He likeds apples."], correct: 1 },
+    { question: "Select the synonym of 'Quick':", options: ["Slow", "Fast", "Lazy", "Weak"], correct: 1 }
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function loadQuestion() {
+    const q = quizData[currentQuestion];
+    document.getElementById('question').textContent = q.question;
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = '';
+    q.options.forEach((opt, index) => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(index);
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function selectOption(selectedIndex) {
+    if (selectedIndex === quizData[currentQuestion].correct) {
+        score++;
+    }
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+        loadQuestion();
+    } else {
+        showScore();
+    }
+}
+
+function showScore() {
+    document.getElementById('quizContainer').innerHTML = `<h2>Quiz Complete! 🎉</h2>
+        <p id="score">Your Score: ${score} / ${quizData.length}</p>`;
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>

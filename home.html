@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrainTest 2026 - Suggestion</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body, html { height: 100%; width: 100%; 
+        background: url(https://th.bing.com/th/id/R.e01956e28ff7197bfadf2f9747fce3a9?rik=g62zpwXqctEkkg&riu=http%3a%2f%2fhdqwalls.com%2fwallpapers%2f2016-bugatti-chiron.jpg&ehk=tFzvvmKxwvVjndu6L9yLz%2ftFV%2bIlLmTlavSR9uu5gE8%3d&risl=&pid=ImgRaw&r=0) no-repeat center center fixed; 
+        background-size: cover; 
+        overflow-x: hidden; 
+        color: #fff; 
+    }
+
+    audio { display: none; }
+
+    header {
+        width: 100%;
+        padding: 15px 30px;
+        background-color: rgba(0,0,0,0.4);
+        backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    header h1 { color: #fff; font-size: 24px; }
+
+    .header-buttons {
+        display: flex;
+        gap: 12px;
+    }
+
+    .header-buttons button {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 12px;
+        background-color: #667eea;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 14px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .header-buttons button:hover {
+        background-color: #764ba2;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+    }
+
+    main {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .suggestion-button {
+        padding: 20px 40px;
+        font-size: 24px;
+        font-weight: bold;
+        border: none;
+        border-radius: 15px;
+        background-color: #ffcc00;
+        color: #2c3e50;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        transition: all 0.3s;
+    }
+
+    .suggestion-button:hover {
+        background-color: #ffd633;
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.5);
+    }
+</style>
+</head>
+<body>
+
+<!-- Audio -->
+<audio id="bgMusic" src="background.mp3" autoplay loop></audio>
+<audio id="clickSound" src="click.mp3"></audio>
+
+<!-- Header -->
+<header>
+    <h1>🧠 BrainTest 2026</h1>
+    <div class="header-buttons">
+        <button onclick="goPage('home.html')">Home</button>
+        <button onclick="goPage('share.html')">Share</button>
+        <button onclick="goPage('about.html')">About</button>
+        <button onclick="goPage('feedback.html')">Feedback</button>
+        <button onclick="goPage('help.html')">Help</button>
+        <button onclick="location.href='refresh.html';">Refresh 🔄</button>
+        <button onclick="location.href='cities.html';">Quizzes</button>
+        <button onclick="location.href='presidents.html';">Presidents Quiz</button>
+        <button onclick="location.href='english.html';">English Quiz</button>
+         <button onclick="location.href='war.html';">War Quiz</button>
+        
+
+        
+
+
+    </div>
+</header>
+
+<script>
+function playClick() { document.getElementById('clickSound').play(); }
+
+function goPage(page) { 
+    playClick(); 
+    window.location.href = page; 
+}
+
+function openSuggestion() {
+    playClick();
+    // Example: redirect to a form page
+    window.location.href = 'suggestion_form.html'; 
+}
+</script>
+
+</body>
+</html>

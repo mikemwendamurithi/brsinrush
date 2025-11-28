@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>African Cities Quiz</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #FFECB3 0%, #FFC107 100%);
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        max-width: 600px;
+        width: 100%;
+    }
+
+    h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+
+    .question-card {
+        margin-bottom: 20px;
+        border-left: 5px solid #FFC107;
+        padding: 15px;
+        background-color: #fff8e1;
+        border-radius: 8px;
+    }
+
+    .question-text {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .options button {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 12px;
+        border-radius: 8px;
+        border: 2px solid #FFC107;
+        background-color: #fff;
+        cursor: pointer;
+        transition: 0.3s;
+        text-align: left;
+    }
+
+    .options button:hover {
+        background-color: #ffe082;
+    }
+
+    .options button.selected {
+        background-color: #FFC107;
+        color: white;
+        border-color: #FFC107;
+    }
+
+    #nextBtn {
+        width: 100%;
+        padding: 12px;
+        font-weight: bold;
+        background-color: #FFC107;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: 0.3s;
+    }
+
+    #nextBtn:disabled {
+        background-color: #FFD54F;
+        cursor: not-allowed;
+    }
+
+    .score-display {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        margin-top: 20px;
+        color: #2c3e50;
+    }
+
+    .button-group button {
+        padding: 10px;
+        margin: 10px 5px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        background-color: #FFC107;
+        font-weight: bold;
+    }
+
+    .button-group button:hover {
+        background-color: #FFB300;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🌍 African Cities Quiz</h1>
+
+    <div class="quiz-section" id="quizSection">
+        <div class="question-card">
+            <div class="question-text" id="questionText"></div>
+            <div class="options" id="optionsContainer"></div>
+        </div>
+        <button id="nextBtn" onclick="nextQuestion()" disabled>Next Question</button>
+    </div>
+
+    <div class="results-section" id="resultsSection" style="display:none;">
+        <h1>Quiz Complete! 🎉</h1>
+        <div class="score-display" id="scoreDisplay"></div>
+        <div class="button-group">
+            <button onclick="retakeQuiz()">Retake Quiz</button>
+            <button onclick="location.href='index.html'">Home</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentQuestion = 0;
+let score = 0;
+let selectedAnswer = null;
+
+const quizData = [
+    { question: "What is the capital of Kenya?", options: ["Nairobi", "Mombasa", "Kisumu", "Eldoret"], correct: 0 },
+    { question: "What is the capital of Egypt?", options: ["Cairo", "Alexandria", "Giza", "Luxor"], correct: 0 },
+    { question: "What is the capital of South Africa?", options: ["Johannesburg", "Cape Town", "Pretoria", "Durban"], correct: 2 },
+    { question: "What is the capital of Nigeria?", options: ["Lagos", "Abuja", "Kano", "Ibadan"], correct: 1 },
+    { question: "What is the capital of Morocco?", options: ["Casablanca", "Rabat", "Marrakech", "Fez"], correct: 1 },
+    { question: "What is the capital of Ghana?", options: ["Accra", "Kumasi", "Tamale", "Takoradi"], correct: 0 },
+    { question: "What is the capital of Ethiopia?", options: ["Addis Ababa", "Gondar", "Mekelle", "Bahir Dar"], correct: 0 },
+    { question: "What is the capital of Algeria?", options: ["Oran", "Algiers", "Constantine", "Annaba"], correct: 1 },
+    { question: "What is the capital of Uganda?", options: ["Kampala", "Entebbe", "Gulu", "Jinja"], correct: 0 },
+    { question: "What is the capital of Tanzania?", options: ["Dodoma", "Dar es Salaam", "Arusha", "Mwanza"], correct: 0 },
+    { question: "What is the capital of Senegal?", options: ["Dakar", "Thiès", "Saint-Louis", "Ziguinchor"], correct: 0 },
+    { question: "What is the capital of Zimbabwe?", options: ["Harare", "Bulawayo", "Mutare", "Gweru"], correct: 0 },
+    { question: "What is the capital of Mali?", options: ["Bamako", "Timbuktu", "Segou", "Kayes"], correct: 0 },
+    { question: "What is the capital of Cameroon?", options: ["Douala", "Yaoundé", "Bamenda", "Garoua"], correct: 1 },
+    { question: "What is the capital of Ivory Coast?", options: ["Abidjan", "Yamoussoukro", "Bouaké", "San Pedro"], correct: 1 },
+    { question: "What is the capital of Libya?", options: ["Tripoli", "Benghazi", "Misrata", "Sirte"], correct: 0 },
+    { question: "What is the capital of Tunisia?", options: ["Tunis", "Sfax", "Sousse", "Gabes"], correct: 0 },
+    { question: "What is the capital of Botswana?", options: ["Gaborone", "Francistown", "Maun", "Selebi-Phikwe"], correct: 0 },
+    { question: "What is the capital of Zambia?", options: ["Lusaka", "Ndola", "Kitwe", "Livingstone"], correct: 0 },
+    { question: "What is the capital of Namibia?", options: ["Windhoek", "Swakopmund", "Walvis Bay", "Lüderitz"], correct: 0 }
+];
+
+function loadQuestion() {
+    const question = quizData[currentQuestion];
+    document.getElementById('questionText').textContent = question.question;
+
+    const optionsContainer = document.getElementById('optionsContainer');
+    optionsContainer.innerHTML = '';
+    question.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(i, btn);
+        optionsContainer.appendChild(btn);
+    });
+
+    selectedAnswer = null;
+    document.getElementById('nextBtn').disabled = true;
+}
+
+function selectOption(index, btn) {
+    selectedAnswer = index;
+    document.querySelectorAll('.options button').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('nextBtn').disabled = false;
+}
+
+function nextQuestion() {
+    if (selectedAnswer === quizData[currentQuestion].correct) score++;
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+        loadQuestion();
+    } else {
+        showResults();
+    }
+}
+
+function showResults() {
+    document.getElementById('quizSection').style.display = 'none';
+    document.getElementById('resultsSection').style.display = 'block';
+    document.getElementById('scoreDisplay').textContent = `${score} / ${quizData.length} correct`;
+}
+
+function retakeQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    document.getElementById('resultsSection').style.display = 'none';
+    document.getElementById('quizSection').style.display = 'block';
+    loadQuestion();
+}
+
+// Initialize first question
+loadQuestion();
+</script>
+
+</body>
+</html>

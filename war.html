@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Africa World Wars Quiz</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #fff0f0;
+        padding: 20px;
+        text-align: center;
+    }
+
+    h1 {
+        color: #b22222;
+        margin-bottom: 30px;
+    }
+
+    .question-card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        max-width: 600px;
+        margin: 0 auto 30px auto;
+        text-align: left;
+    }
+
+    .question-text {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .options button {
+        display: block;
+        width: 100%;
+        background-color: #b22222;
+        color: white;
+        border: none;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+    .options button:hover {
+        background-color: #8b1a1a;
+    }
+
+    #score {
+        font-size: 24px;
+        font-weight: bold;
+        color: #b22222;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h1>🌍 Africa World Wars Quiz</h1>
+
+<div class="question-card" id="quizContainer">
+    <div class="question-text" id="question"></div>
+    <div class="options" id="options"></div>
+</div>
+
+<div id="score"></div>
+
+<script>
+const quizData = [
+    { question: "Which African country was occupied by Italy during WWII?", options: ["Libya", "Egypt", "Algeria", "Ghana"], correct: 0 },
+    { question: "Which battle took place in North Africa in 1942?", options: ["El Alamein", "Stalingrad", "Normandy", "Midway"], correct: 0 },
+    { question: "Which African nation resisted Italian invasion in the 1930s?", options: ["Ethiopia", "Sudan", "Morocco", "Tunisia"], correct: 0 },
+    { question: "Which African port was strategic for WWII supply routes?", options: ["Tunis", "Lagos", "Dakar", "Alexandria"], correct: 3 },
+    { question: "Who led the Italian forces in Ethiopia?", options: ["Benito Mussolini", "Adolf Hitler", "Francisco Franco", "Charles de Gaulle"], correct: 0 },
+    { question: "Which African desert saw significant WWII fighting?", options: ["Sahara", "Kalahari", "Namib", "Gobi"], correct: 0 },
+    { question: "Which country’s troops fought alongside the Allies in North Africa?", options: ["South Africa", "Nigeria", "Kenya", "Egypt"], correct: 0 },
+    { question: "The Battle of El Alamein was fought in which country?", options: ["Egypt", "Libya", "Tunisia", "Morocco"], correct: 0 },
+    { question: "Which Axis power controlled Libya during WWII?", options: ["Italy", "Germany", "Japan", "Spain"], correct: 0 },
+    { question: "Which African country was a French colony during WWII?", options: ["Senegal", "Kenya", "Ethiopia", "Egypt"], correct: 0 },
+    { question: "Operation Torch involved Allied landings in which region?", options: ["North Africa", "West Africa", "East Africa", "Central Africa"], correct: 0 },
+    { question: "Which African leader collaborated with the Allies in WWII?", options: ["Haile Selassie", "Jomo Kenyatta", "Kwame Nkrumah", "Nelson Mandela"], correct: 0 },
+    { question: "Which African country was liberated by Allied forces in 1943?", options: ["Tunisia", "Algeria", "Morocco", "Libya"], correct: 0 },
+    { question: "Which German general led forces in North Africa?", options: ["Erwin Rommel", "Heinrich Himmler", "Hermann Göring", "Albert Kesselring"], correct: 0 },
+    { question: "The Siege of Tobruk occurred in which country?", options: ["Libya", "Egypt", "Morocco", "Tunisia"], correct: 0 },
+    { question: "Which African country supplied troops to the British army?", options: ["South Africa", "Ethiopia", "Nigeria", "All of the above"], correct: 3 },
+    { question: "Which battle marked the turning point in North Africa for the Allies?", options: ["El Alamein", "Tobruk", "Kasserine", "Libya Campaign"], correct: 0 },
+    { question: "Which African country was invaded by Vichy France forces?", options: ["Madagascar", "Egypt", "Gabon", "Morocco"], correct: 2 },
+    { question: "Which port city in Tunisia was key during WWII?", options: ["Tunis", "Casablanca", "Tripoli", "Algiers"], correct: 0 },
+    { question: "The North African Campaign ended in which year?", options: ["1943", "1942", "1944", "1945"], correct: 0 }
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function loadQuestion() {
+    const q = quizData[currentQuestion];
+    document.getElementById('question').textContent = q.question;
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = '';
+    q.options.forEach((opt, index) => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(index);
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function selectOption(selectedIndex) {
+    if (selectedIndex === quizData[currentQuestion].correct) {
+        score++;
+    }
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+        loadQuestion();
+    } else {
+        showScore();
+    }
+}
+
+function showScore() {
+    document.getElementById('quizContainer').innerHTML = `<h2>Quiz Complete! 🎉</h2>
+        <p id="score">Your Score: ${score} / ${quizData.length}</p>`;
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>

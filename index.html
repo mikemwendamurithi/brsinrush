@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrainTest 2026 - Signup</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body, html {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    body {
+        background: url('https://media.istockphoto.com/id/1206796363/photo/ai-machine-learning-hands-of-robot-and-human-touching-on-big-data-network-connection.jpg?s=1024x1024&w=is&k=20&c=lqHbBScxwQa3wcTySqNOYwyJhUIPB1V4m1PtSIK9BdQ=') no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .signup-container, .homepage {
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 15px;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        min-width: 300px;
+    }
+
+    .signup-container input, .signup-container select {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        border: 2px solid #ddd;
+        font-size: 16px;
+    }
+
+    .signup-container button, .homepage button {
+        padding: 12px 20px;
+        margin: 10px;
+        border-radius: 8px;
+        border: none;
+        background-color: #667eea;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .signup-container button:hover, .homepage button:hover {
+        background-color: #764ba2;
+    }
+
+    .homepage {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .floating-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .floating-buttons button {
+        margin: 10px;
+    }
+</style>
+</head>
+<body>
+
+<!-- Background Music -->
+<audio id="bgMusic" src="background.mp3" autoplay loop></audio>
+<audio id="clickSound" src="click.mp3"></audio>
+
+<div class="overlay">
+    <!-- Signup Form -->
+    <div class="signup-container" id="signupContainer">
+        <h2>Create Your Account</h2>
+        <select id="country" required>
+            <option value="">Select Country</option>
+            <option value="Kenya">Kenya</option>
+            <option value="USA">USA</option>
+            <option value="UK">UK</option>
+            <option value="Canada">Canada</option>
+            <option value="Australia">Australia</option>
+            <option value="Other">Other</option>
+        </select>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="number" id="age" placeholder="Age" min="6" max="120" required>
+        <input type="password" id="password" placeholder="Password (6-8 chars)" required>
+        <button onclick="createAccount()">Sign Up</button>
+    </div>
+
+    <!-- Homepage Buttons -->
+    <div class="homepage" id="homepage">
+        <h2>Welcome to BrainTest 2026!</h2>
+        <div class="floating-buttons">
+            <button onclick="playClick()">Suggestion</button>
+            <button onclick="playClick()">Share</button>
+            <button onclick="playClick()">Feedback</button>
+            <button onclick="playClick()">Help</button>
+            <button onclick="playClick()">About</button>
+            <button onclick="playClick()">Refresh</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function playClick() {
+    document.getElementById('clickSound').play();
+}
+
+function createAccount() {
+    const country = document.getElementById('country').value;
+    const username = document.getElementById('username').value.trim();
+    const age = document.getElementById('age').value;
+    const password = document.getElementById('password').value;
+
+    if (!country || !username || !age || !password) {
+        alert('Please fill all fields!');
+        return;
+    }
+
+    if (password.length < 6 || password.length > 8) {
+        alert('Password must be 6 to 8 characters long.');
+        return;
+    }
+
+    // Save user info
+    localStorage.setItem('braintest_user', JSON.stringify({ country, username, age }));
+
+    // Play click sound
+    playClick();
+
+    // Hide signup, show homepage
+    document.getElementById('signupContainer').style.display = 'none';
+    document.getElementById('homepage').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
